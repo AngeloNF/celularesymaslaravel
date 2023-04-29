@@ -11,6 +11,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css" />
     <link rel="shortcut icon" href="{{ url('storage/Logos y mas/Icono Celulares Y Mas.png') }}" type="image/x-icon" />
     <style>
+        .bg {
+            background: radial-gradient(50% 50% at 50% 50%, #548EA6 0%, #000000 58.33%);
+        }
+
+        .bg-black {
+            background: black;
+        }
     </style>
     @livewireStyles
 </head>
@@ -18,7 +25,7 @@
 <body class="bg">
 
 
-    <nav class="navbar navbar-expand-lg bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-black">
         <div class="container">
             <a class="navbar-brand" href="">
                 <img src="{{ url('storage/Logos y mas/Logo Celulares Y Mas.png') }}" alt="Bootstrap" width="150"
@@ -35,7 +42,8 @@
                         <a class="nav-link active" aria-current="page" href="{{ route('inicio') }}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="{{ route('categoria',"Celulares") }}">Celulares</a>
+                        <a class="nav-link " aria-current="page"
+                            href="{{ route('categoria', 'Celulares') }}">Celulares</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="{{ route('inicio') }}">Accesorios</a>
@@ -43,22 +51,36 @@
                     <li class="nav-item">
                         <a class="nav-link " aria-current="page" href="{{ route('inicio') }}">Sublimación</a>
                     </li>
-                    <li class="nav-item">
-                        @auth
-                            <form action="{{ route('logout') }}" method="post">
-                                @csrf
-                                <button type="submit" class="btn nav-link "><i class="bi bi-person-circle"></i>
-                                    {{ Auth::user()->name }}</button>
-                            </form>
+                    @auth
+                        <li class="nav-item dropdown ">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i> {{ Auth::user()->name }}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                <li>
+                                    <a class="dropdown-item"
+                                        aria-current="page"href="{{ route('producto.create') }}">Crear Producto</a>
+                                </li>
+                                <li>
+                                    <form action="{{ route('logout') }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item"> Cerrar Sessión</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
 
-                        @endauth
-                        @guest
+                    @endauth
+                    @guest
+                        <li class="nav-item">
                             <a class="nav-link " aria-current="page" href="{{ route('login') }}">
                                 <i class="bi bi-person-circle"></i>
                                 Iniciar Sesión
                             </a>
-                        @endguest
-                    </li>
+                        </li>
+                    @endguest
+
                 </ul>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\categorias;
 use App\Models\productos;
 use Auth;
 use Illuminate\Http\Request;
@@ -39,27 +40,23 @@ class DatosController extends Controller
      */
     public function store(Request $request)
     {
-        $firebase = (new Factory)
-            ->withServiceAccount(__DIR__ . '/celulares-y-mas-cd772-firebase-adminsdk-qvte6-9f21b37d57.json')
-            ->withDatabaseUri('https://celulares-y-mas-cd772-default-rtdb.firebaseio.com/');
+        $articulo = new productos;
 
-        $database = $firebase->createDatabase();
 
-        $datos = request()->all();
-
-        $datos["id"] = ucfirst($datos["id"]);
+        $articulo->name = $request->id;
+        $articulo->precio = $request->precio;
+        $articulo->categoria_id = $request->categoria;
+        
         $file = $request->file('imagen');
+
         $extension = $file->getClientOriginalExtension();
+        $name = $request->id;
 
-        $datos["imagen"] = "Imagenes Celulares/" . $datos["categoria"] . "/" . $datos["id"] . "." . $extension;
-        $datos["precio"] = "¢" . $datos["precio"];
-        unset($datos["_token"]);
-
-
-        $file->storeAs("public/Imagenes Celulares/" . $datos["categoria"], $datos["id"] . "." . $extension);
-        $database->getReference('/')->push($datos);
-
-        return redirect("/");
+        $articulo->imagenURL = "Imagenes Celulares/" . categorias::find($request->categoria)->name . "/" . $name . "." . $extension;
+        
+        $file->storeAs("public/Imagenes Celulares/" . categorias::find($request->categoria)->name, $name . "." . $extension);
+        $articulo->save();
+        return redirect("home");
     }
 
     /**

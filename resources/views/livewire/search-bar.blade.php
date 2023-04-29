@@ -5,7 +5,7 @@
             aria-label="Search">
     </form>
 @php
-    dd(request());
+    
 @endphp
     @foreach ($articulos as $key => $item)
         <div class="col-12 col-sm-6 col-lg-3 my-2 ">

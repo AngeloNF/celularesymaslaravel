@@ -17,17 +17,11 @@ class SearchBar extends Component
     public function render()
     {
 
-        if (str_contains(request()->header()['referer'][0], "categoria")) {
-            return view('livewire.search-bar', [
-                'articulos' =>
-                productos::
-                    whereRelation("Categoria", "name", "Accesorios")
-                    ->where('name', 'like', '%' . $this->search . '%')
-                    ->get(),
-            ]);
-        }
+
         return view('livewire.search-bar', [
-            'articulos' => productos::where('name', 'like', '%' . $this->search . '%')->orWhere('precio', 'like', '%' . $this->search . '%')->get(),
+            'articulos' =>
+            productos::Where('name', 'like', '%' . $this->search . '%')
+                ->get(),
         ]);
     }
 
