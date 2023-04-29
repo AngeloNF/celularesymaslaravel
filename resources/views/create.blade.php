@@ -1,8 +1,11 @@
 @extends('layout')
 @section('cards')
-    <div class="container bg-white">
-        <form method="POST" action="{{ route("producto.store") }}" enctype="multipart/form-data" class=" m-5 rounded">
+    <div class="container p-5 text-white bg-black">
+        <form method="POST" action="{{ route('producto.store') }}" enctype="multipart/form-data" class=" m-5 rounded">
             @csrf
+            <div class="mb-3 text-center">
+                <h2>Crear / Agregar Producto</h2>
+            </div>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="id" name="id" aria-describedby="id" required>
@@ -25,7 +28,14 @@
                 <input type="number" class="form-control" id="precio" name="precio" aria-describedby="precio" required>
                 <div id="id" class="form-text">Solo numeros sin comilas ni espacios</div>
             </div>
-            <button type="submit" class="btn btn-primary">Subir</button>
+            <div class="mb-3">
+                <label for="caracteristicas" class="form-label">Caracteristicas</label>
+                <textarea class="form-control" id="caracteristicas" name="caracteristicas"rows="5"></textarea>
+                <div id="id" class="form-text">Separar las caracteristicas por saltos de linea (ENTERS)</div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Subir</button>
+            </div>
         </form>
     </div>
 @endsection

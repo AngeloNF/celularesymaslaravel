@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Caracteristicas;
 use App\Models\categorias;
 use App\Models\productos;
 use Auth;
 use Illuminate\Http\Request;
 use Kreait\Firebase;
 use Kreait\Firebase\Factory;
+use Ramsey\Collection\Collection;
+use Storage;
 
 class DatosController extends Controller
 {
@@ -46,17 +49,23 @@ class DatosController extends Controller
         $articulo->name = $request->id;
         $articulo->precio = $request->precio;
         $articulo->categoria_id = $request->categoria;
-        
+
         $file = $request->file('imagen');
 
         $extension = $file->getClientOriginalExtension();
         $name = $request->id;
 
         $articulo->imagenURL = "Imagenes Celulares/" . categorias::find($request->categoria)->name . "/" . $name . "." . $extension;
-        
+        $caracteristicas = [];
+        foreach (explode("\n", $request->caracteristicas) as $key => $value) {
+
+            $caracteristicas[] = new Caracteristicas(["descripcion" => $value]);
+        }
+       
         $file->storeAs("public/Imagenes Celulares/" . categorias::find($request->categoria)->name, $name . "." . $extension);
         $articulo->save();
-        return redirect("home");
+        $articulo->Caracteristicas()->saveMany($caracteristicas);
+        return redirect("/");
     }
 
     /**
@@ -91,12 +100,11 @@ class DatosController extends Controller
      */
     public function destroy(string $id)
     {
-        $firebase = (new Factory)
-            ->withServiceAccount(__DIR__ . '/celulares-y-mas-cd772-firebase-adminsdk-qvte6-9f21b37d57.json')
-            ->withDatabaseUri('https://celulares-y-mas-cd772-default-rtdb.firebaseio.com/');
+        $producto = productos::find($id);
+        unlink(public_path()."/storage/".$producto->imagenURL);
+        $producto->Caracteristicas()->delete();
+        $producto->delete();
 
-        $database = $firebase->createDatabase();
-        $database->getReference("/" . $id)->remove();
         return redirect("/");
     }
 }

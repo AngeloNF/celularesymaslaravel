@@ -1,9 +1,11 @@
 @extends('layout')
 @section('cards')
-    <div class="container bg-white">
+    <div class="container p-5 text-white bg-black">
         <div class=" m-5 rounded">
             <div class="mb-3 text-center">
-
+                <h2>Editar / Eliminar Producto</h2>
+            </div>
+            <div class="mb-3 text-center">
                 <img src="{{ url('storage/' . $articulo['imagenURL']) }}" class="rounded-4" width="500px">
             </div>
             <div class="mb-3">
@@ -29,6 +31,11 @@
                     value="{{ $articulo['precio'] }}">
 
                 <div id="id" class="form-text">Solo numeros sin comilas ni espacios</div>
+            </div>
+            <div class="mb-3">
+                <label for="caracteristicas" class="form-label">Caracteristicas</label>
+                <textarea class="form-control" id="caracteristicas" name="caracteristicas"rows="5">@foreach($articulo["caracteristicas"] as $item){{ $item->descripcion."\n" }}@endforeach</textarea>
+                <div id="id" class="form-text">Separar las caracteristicas por saltos de linea (ENTERS)</div>
             </div>
             <button type="submit" class="btn btn-primary">Subir</button>
             <form method="POST" action="{{ route('producto.destroy', $key) }}">

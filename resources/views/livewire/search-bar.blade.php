@@ -14,13 +14,14 @@
                 <div class="card-body d-flex flex-column">
                     <h4 class="card-title">{{ $item['name'] }}</h4>
                     <h5 class="card-subtitle mb-2">{{ $item['precio'] }}</h5>
-                    @isset($item['caracteristicas'])
+                
+                    @isset($item->Caracteristicas)
                         <p class="card-text">
                             Descripción del Producto:
                         </p>
                         <ul class="mb-auto" id="descripcion-list">
-                            @foreach ($item['caracteristicas'] as $carac)
-                                <li>{{ $carac }}</li>
+                            @foreach ($item->Caracteristicas as $carac)
+                                <li>{{ $carac->descripcion }}</li>
                             @endforeach
                         </ul>
                     @endisset
@@ -42,7 +43,7 @@
 
                         <div class="btn-group my-2" role="group" aria-label="Basic example">
 
-                            <a type="button" href="{{ route('producto.show', $key) }}" class="btn btn-warning "></i>EDITAR</a>
+                            <a type="button" href="{{ route('producto.show', $item->id) }}" class="btn btn-warning "></i>EDITAR</a>
 
                         </div>
                     @endauth
