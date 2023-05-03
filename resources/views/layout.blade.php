@@ -24,10 +24,16 @@
 
 <body class="bg">
 
-
+    <nav class="navbar bg-black pt-3">
+        <div class="container text-white">
+            <p class="text-center m-auto">
+                Avenida 1, Calle 5, Local Esquinero Parqueo La Antigua, San José, Costa Rica
+            </p>
+        </div>
+    </nav>
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-black">
         <div class="container">
-            <a class="navbar-brand" href="">
+            <a class="navbar-brand" href=" {{ route('inicio') }}">
                 <img src="{{ url('storage/Logos y mas/Logo Celulares Y Mas.png') }}" alt="Bootstrap" width="150"
                     height="" />
             </a>
@@ -39,18 +45,29 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('inicio') }}">Inicio</a>
+                        <a class="nav-link @if (Route::current()->getName() === 'inicio') active @endif" aria-current="page"
+                            href="{{ route('inicio') }}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page"
+                        <a class="nav-link @if (Route::current()->getName() === 'categoria' && Route::current()->name == 'Celulares') active @endif" aria-current="page"
                             href="{{ route('categoria', 'Celulares') }}">Celulares</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="{{ route('inicio') }}">Accesorios</a>
+                        <a class="nav-link  @if (Route::current()->getName() === 'categoria' && Route::current()->name == 'Accesorios') active @endif" aria-current="page"
+                            href="{{ route('categoria', 'Accesorios') }}">Accesorios</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " aria-current="page" href="{{ route('inicio') }}">Sublimación</a>
+                        <a class="nav-link  @if (Route::current()->getName() === 'categoria' && Route::current()->name == 'Sublimación') active @endif" aria-current="page"
+                            href="{{ route('categoria', 'Sublimación') }}">Sublimación</a>
                     </li>
+                    @if (Route::current()->getName() != 'login')
+                        <li class="nav-item">
+
+                            <a class="nav-link " type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i
+                                    class="bi bi-search"></i></a>
+                        </li>
+                    @endif
                     @auth
                         <li class="nav-item dropdown ">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
@@ -59,8 +76,12 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
                                 <li>
-                                    <a class="dropdown-item"
-                                        aria-current="page"href="{{ route('producto.create') }}">Crear Producto</a>
+                                    <a class="dropdown-item" aria-current="page"href="{{ route('producto.create') }}">Crear
+                                        Producto</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" aria-current="page"href="{{ route('producto.create') }}">Crear
+                                        Producto</a>
                                 </li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="post">
@@ -85,11 +106,13 @@
             </div>
         </div>
     </nav>
-
-
     <div class="container-xl" id="">
-
         @yield('cards')
+    </div>
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+        <div class="offcanvas-body">
+            @yield('busqueda')
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">

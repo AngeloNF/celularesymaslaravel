@@ -36,7 +36,7 @@
 
                         <div class="col-md-6 d-flex justify-content-center">
                             <!-- Simple link -->
-                            <a href="#!">Recuperar contraseña</a>
+                            <a href="{{ route("password.request") }}">Recuperar contraseña</a>
                         </div>
                     </div>
                     @error('email')

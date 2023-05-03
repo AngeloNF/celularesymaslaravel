@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Caracteristicas;
 use App\Models\categorias;
 use App\Models\productos;
-use Auth;
 use Illuminate\Http\Request;
-use Kreait\Firebase;
-use Kreait\Firebase\Factory;
-use Ramsey\Collection\Collection;
-use Storage;
+use Route;
 
 class DatosController extends Controller
 {
@@ -24,9 +20,9 @@ class DatosController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-
-        return view("index");
+    {   
+       
+        return view("index",["productos"=>productos::all()]);
     }
 
     /**
@@ -43,19 +39,19 @@ class DatosController extends Controller
      */
     public function store(Request $request)
     {
-        $articulo = new productos;
+        $producto = new productos;
 
 
-        $articulo->name = $request->id;
-        $articulo->precio = $request->precio;
-        $articulo->categoria_id = $request->categoria;
+        $producto->name = $request->id;
+        $producto->precio = $request->precio;
+        $producto->categoria_id = $request->categoria;
 
         $file = $request->file('imagen');
 
         $extension = $file->getClientOriginalExtension();
         $name = $request->id;
 
-        $articulo->imagenURL = "Imagenes Celulares/" . categorias::find($request->categoria)->name . "/" . $name . "." . $extension;
+        $producto->imagenURL = "Imagenes Celulares/" . categorias::find($request->categoria)->name . "/" . $name . "." . $extension;
         $caracteristicas = [];
         foreach (explode("\n", $request->caracteristicas) as $key => $value) {
 
@@ -63,8 +59,8 @@ class DatosController extends Controller
         }
        
         $file->storeAs("public/Imagenes Celulares/" . categorias::find($request->categoria)->name, $name . "." . $extension);
-        $articulo->save();
-        $articulo->Caracteristicas()->saveMany($caracteristicas);
+        $producto->save();
+        $producto->Caracteristicas()->saveMany($caracteristicas);
         return redirect("/");
     }
 
@@ -74,8 +70,8 @@ class DatosController extends Controller
     public function show(string $id)
     {
 
-        $articulo = productos::where('id', $id)->first();
-        return view("show", ["articulo" => $articulo, "key" => $id]);
+        $producto = productos::where('id', $id)->first();
+        return view("show", ["producto" => $producto, "key" => $id]);
 
     }
 

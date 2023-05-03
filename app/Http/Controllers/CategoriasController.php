@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\categorias;
 use Illuminate\Http\Request;
+use Route;
 
 class CategoriasController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(categorias $categorias)
-    {   
+    public function index($categorias)
+    {
         
-        return view("index");
+        return view("index", ["productos" => categorias::where("name", "like", $categorias)->first()->productos]);
     }
 
     /**

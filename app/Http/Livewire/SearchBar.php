@@ -19,7 +19,7 @@ class SearchBar extends Component
 
 
         return view('livewire.search-bar', [
-            'articulos' =>
+            'productos' =>
             productos::Where('name', 'like', '%' . $this->search . '%')
                 ->get(),
         ]);

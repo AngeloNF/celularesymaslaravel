@@ -4,23 +4,20 @@
         <input wire:model="search" type="search" placeholder="Escriba el nombre o el precio" class="form-control me-2"
             aria-label="Search">
     </form>
-@php
-    
-@endphp
-    @foreach ($articulos as $key => $item)
+    @foreach ($productos as $key => $producto)
         <div class="col-12 col-sm-6 col-lg-3 my-2 ">
             <div class="card bg-dark rounded-4 h-100 text-white" data-bs-theme="dark">
-                <img src="{{ url('storage/' . $item['imagenURL']) }}" class="card-img-top rounded-4" alt="">
+                <img src="{{ url('storage/' . $producto['imagenURL']) }}" class="card-img-top rounded-4" alt="">
                 <div class="card-body d-flex flex-column">
-                    <h4 class="card-title">{{ $item['name'] }}</h4>
-                    <h5 class="card-subtitle mb-2">{{ $item['precio'] }}</h5>
-                
-                    @isset($item->Caracteristicas)
+                    <h4 class="card-title">{{ $producto['name'] }}</h4>
+                    <h5 class="card-subtitle mb-2">{{ $producto['precio'] }}</h5>
+
+                    @isset($producto->Caracteristicas)
                         <p class="card-text">
                             Descripción del Producto:
                         </p>
                         <ul class="mb-auto" id="descripcion-list">
-                            @foreach ($item->Caracteristicas as $carac)
+                            @foreach ($producto->Caracteristicas as $carac)
                                 <li>{{ $carac->descripcion }}</li>
                             @endforeach
                         </ul>
@@ -43,7 +40,8 @@
 
                         <div class="btn-group my-2" role="group" aria-label="Basic example">
 
-                            <a type="button" href="{{ route('producto.show', $item->id) }}" class="btn btn-warning "></i>EDITAR</a>
+                            <a type="button" href="{{ route('producto.show', $producto->id) }}"
+                                class="btn btn-warning "></i>EDITAR</a>
 
                         </div>
                     @endauth
