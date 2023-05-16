@@ -20,9 +20,15 @@ class DatosController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {   
-       
-        return view("index",["productos"=>productos::all()]);
+    {
+
+        return view(
+            "index",
+            [
+                "productos" => productos::all(),
+                "categorias" => categorias::all()
+            ]
+        );
     }
 
     /**
@@ -31,7 +37,9 @@ class DatosController extends Controller
     public function create()
     {
 
-        return view("create");
+        return view("create", [
+            "categorias" => categorias::all()
+        ]);
     }
 
     /**
@@ -39,26 +47,23 @@ class DatosController extends Controller
      */
     public function store(Request $request)
     {
-        $producto = new productos;
-
-
-        $producto->name = $request->id;
-        $producto->precio = $request->precio;
-        $producto->categoria_id = $request->categoria;
-
+        $categoria = categorias::where("name", "like", "%" . $request->categoria . "%")->first();
+        
         $file = $request->file('imagen');
-
         $extension = $file->getClientOriginalExtension();
         $name = $request->id;
-
-        $producto->imagenURL = "Imagenes Celulares/" . categorias::find($request->categoria)->name . "/" . $name . "." . $extension;
+        $file->storeAs("public/Imagenes Celulares/" . $categoria->name, $name . "." . $extension);
+        
         $caracteristicas = [];
         foreach (explode("\n", $request->caracteristicas) as $key => $value) {
-
             $caracteristicas[] = new Caracteristicas(["descripcion" => $value]);
         }
-       
-        $file->storeAs("public/Imagenes Celulares/" . categorias::find($request->categoria)->name, $name . "." . $extension);
+        
+        $producto = new productos;
+        $producto->name = $request->id;
+        $producto->precio = $request->precio;
+        $producto->categoria_id = $categoria->id;
+        $producto->imagenURL = "Imagenes Celulares/" . $categoria->name . "/" . $name . "." . $extension;
         $producto->save();
         $producto->Caracteristicas()->saveMany($caracteristicas);
         return redirect("/");
@@ -71,7 +76,14 @@ class DatosController extends Controller
     {
 
         $producto = productos::where('id', $id)->first();
-        return view("show", ["producto" => $producto, "key" => $id]);
+        return view(
+            "show",
+            [
+                "producto" => $producto,
+                "key" => $id,
+                "categorias" => categorias::all()
+            ]
+        );
 
     }
 
@@ -97,7 +109,7 @@ class DatosController extends Controller
     public function destroy(string $id)
     {
         $producto = productos::find($id);
-        unlink(public_path()."/storage/".$producto->imagenURL);
+        unlink(public_path() . "/storage/" . $producto->imagenURL);
         $producto->Caracteristicas()->delete();
         $producto->delete();
 

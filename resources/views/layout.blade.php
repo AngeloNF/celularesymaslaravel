@@ -23,7 +23,6 @@
 </head>
 
 <body class="bg">
-
     <nav class="navbar bg-black pt-3">
         <div class="container text-white">
             <p class="text-center m-auto">
@@ -37,32 +36,24 @@
                 <img src="{{ url('storage/Logos y mas/Logo Celulares Y Mas.png') }}" alt="Bootstrap" width="150"
                     height="" />
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link @if (Route::current()->getName() === 'inicio') active @endif" aria-current="page"
                             href="{{ route('inicio') }}">Inicio</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link @if (Route::current()->getName() === 'categoria' && Route::current()->name == 'Celulares') active @endif" aria-current="page"
-                            href="{{ route('categoria', 'Celulares') }}">Celulares</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link  @if (Route::current()->getName() === 'categoria' && Route::current()->name == 'Accesorios') active @endif" aria-current="page"
-                            href="{{ route('categoria', 'Accesorios') }}">Accesorios</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link  @if (Route::current()->getName() === 'categoria' && Route::current()->name == 'Sublimación') active @endif" aria-current="page"
-                            href="{{ route('categoria', 'Sublimación') }}">Sublimación</a>
-                    </li>
+                    @foreach ($categorias as $categoria)
+                        <li class="nav-item">
+                            <a class="nav-link @if (Route::current()->getName() === 'categoria' && Route::current()->name ==$categoria->name) active @endif" aria-current="page"
+                                href="{{ route('categoria.show', $categoria->name) }}">{{ $categoria->name }}</a>
+                        </li>
+                    @endforeach
                     @if (Route::current()->getName() != 'login')
                         <li class="nav-item">
-
                             <a class="nav-link " type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i
                                     class="bi bi-search"></i></a>
@@ -80,8 +71,8 @@
                                         Producto</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" aria-current="page"href="{{ route('producto.create') }}">Crear
-                                        Producto</a>
+                                    <a class="dropdown-item" aria-current="page"href="{{ route('categoria.index') }}">Crear
+                                        Categoria</a>
                                 </li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="post">
@@ -109,7 +100,7 @@
     <div class="container-xl" id="">
         @yield('cards')
     </div>
-    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+    <div class="offcanvas offcanvas-sm offcanvas-top text-bg-dark" tabindex="-1" id="offcanvasTop">
         <div class="offcanvas-body">
             @yield('busqueda')
         </div>

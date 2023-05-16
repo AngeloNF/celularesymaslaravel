@@ -14,9 +14,10 @@
                 <label for="exampleInputEmail1" class="form-label">Categoria</label>
                 <select class="form-select" aria-label="Default select example" id="categoria" name="categoria" required>
                     <option selected>Open this select menu</option>
-                    <option value="1">Celulares</option>
-                    <option value="2">Accesorios</option>
-                    <option value="3">Medias</option>
+                    @foreach ($categorias as $categoria)
+                    <option value="{{ $categoria->name }}">
+                        {{ $categoria->name }}</option>
+                @endforeach
                 </select>
             </div>
             <div class="mb-3">

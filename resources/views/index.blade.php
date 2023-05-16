@@ -2,7 +2,7 @@
 
 @section('cards')
     @if (Route::current()->getName() == 'inicio')
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselInicio" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="https://images.alphacoders.com/126/thumb-1920-1266726.png" class="d-block w-50 m-auto"
@@ -14,15 +14,13 @@
                 </div>
 
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselInicio" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
+                <span class="visually-hidden">Anterior</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselInicio" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
+                <span class="visually-hidden">Siguiente</span>
             </button>
         </div>
     @endif
@@ -44,7 +42,7 @@
                                 @endforeach
                             </ul>
                         @endisset
-                        <div class="btn-group my-2 " role="group" aria-label="Basic example">
+                        <div class="btn-group my-2 " role="group">
                             <a type="button" href="https://www.facebook.com/celuymas"class="btn btn-primary"><i
                                     class="bi bi-facebook"></i> Facebook</a>
                             <a type="button" href="https://www.instagram.com/celu.mas"class="btn btn-danger"><i
@@ -60,11 +58,10 @@
                         </div>
                         @auth
 
-                            <div class="btn-group my-2" role="group" aria-label="Basic example">
-
+                            <div class="btn-group my-2" role="group">
                                 <a type="button" href="{{ route('producto.show', $producto->id) }}"
-                                    class="btn btn-warning "></i>EDITAR</a>
-
+                                    class="btn btn-warning "></i>EDITAR
+                                </a>
                             </div>
                         @endauth
                     </div>

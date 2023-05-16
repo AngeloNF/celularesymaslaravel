@@ -11,10 +11,11 @@ class CategoriasController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($categorias)
+    public function index()
     {
-        
-        return view("index", ["productos" => categorias::where("name", "like", $categorias)->first()->productos]);
+        return view("categorias.index", [
+            "categorias" => categorias::all()
+        ]);
     }
 
     /**
@@ -22,7 +23,12 @@ class CategoriasController extends Controller
      */
     public function create()
     {
-        //
+        return view(
+            "categorias.create",
+            [
+                "categorias" => categorias::all()
+            ]
+        );
     }
 
     /**
@@ -30,15 +36,26 @@ class CategoriasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (categorias::where("name", "like", $request->name . "%")->first() == null) {
+
+            $categoria = new categorias();
+            $categoria->name = $request->name;
+            $categoria->save();
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $categorias)
     {
-        //
+        return view(
+            "index",
+            [
+                "productos" => categorias::where("name", "like", $categorias)->first()->productos,
+                "categorias" => categorias::all()
+            ]
+        );
     }
 
     /**

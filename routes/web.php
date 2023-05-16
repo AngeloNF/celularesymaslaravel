@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DatosController::class, "index"])->name("inicio");
 
-Route::resource('producto', DatosController::class)->except(["index"])->middleware("auth");
 
-Route::get("categoria/{name}", [CategoriasController::class, "index"])->name("categoria");
+Route::resource('categoria', CategoriasController::class)->except(["index","show"])->middleware("auth");
+Route::resource('categoria', CategoriasController::class)->only(["index","show"]);
+Route::resource('producto', DatosController::class)->except(["index"])->middleware("auth");
