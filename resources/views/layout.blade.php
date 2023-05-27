@@ -18,6 +18,9 @@
         .bg-black {
             background: black;
         }
+        .offcanvas{
+            height: fit-content !important;
+        }
     </style>
     @livewireStyles
 </head>
@@ -48,7 +51,7 @@
                     </li>
                     @foreach ($categorias as $categoria)
                         <li class="nav-item">
-                            <a class="nav-link @if (Route::current()->getName() === 'categoria' && Route::current()->name ==$categoria->name) active @endif" aria-current="page"
+                            <a class="nav-link @if (Route::current()->getName() === 'categoria' && Route::current()->name == $categoria->name) active @endif" aria-current="page"
                                 href="{{ route('categoria.show', $categoria->name) }}">{{ $categoria->name }}</a>
                         </li>
                     @endforeach
@@ -71,13 +74,13 @@
                                         Producto</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" aria-current="page"href="{{ route('categoria.index') }}">Crear
-                                        Categoria</a>
+                                    <a class="dropdown-item" aria-current="page"href="{{ route('categoria.index') }}">Lista
+                                        Categorias</a>
                                 </li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="post">
                                         @csrf
-                                        <button type="submit" class="dropdown-item"> Cerrar Sessión</button>
+                                        <button type="submit" class="dropdown-item"> Cerrar Sesión</button>
                                     </form>
                                 </li>
                             </ul>
@@ -100,9 +103,14 @@
     <div class="container-xl" id="">
         @yield('cards')
     </div>
-    <div class="offcanvas offcanvas-sm offcanvas-top text-bg-dark" tabindex="-1" id="offcanvasTop">
+    <div class="offcanvas offcanvas-top text-bg-dark" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTop">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasDarkLabel">Offcanvas</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvasDark"
+                aria-label="Close"></button>
+        </div>
         <div class="offcanvas-body">
-            @yield('busqueda')
+            @livewire('search-bar')
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"

@@ -42,6 +42,7 @@ class CategoriasController extends Controller
             $categoria->name = $request->name;
             $categoria->save();
         }
+        return redirect(route("categoria.index"));
     }
 
     /**
@@ -53,7 +54,8 @@ class CategoriasController extends Controller
             "index",
             [
                 "productos" => categorias::where("name", "like", $categorias)->first()->productos,
-                "categorias" => categorias::all()
+                "categorias" => categorias::all(),
+                "nombreCategoria" => $categorias
             ]
         );
     }
@@ -71,7 +73,7 @@ class CategoriasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
     }
 
     /**
@@ -79,6 +81,12 @@ class CategoriasController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $categoria = categorias::find($id);
+        try {
+            $categoria->delete();
+            return redirect(route("categoria.index"));
+        } catch (\Throwable $th) {
+            return back()->with("error","La categoria no debe tener productos para poder eliminarla, cambie o elimine los productos con la categoria que desea eliminar.");
+        }
     }
 }
